@@ -4,41 +4,17 @@ const router = express.Router();
 const Traffic = require("../models/traffic");
 const axios = require("axios");
 
-const ORS_API = "https://api.openrouteservice.org/v2/directions/driving-car";
-
+const ORS_API = process.env.ORS_API_KEY
 // ➡️ POST: Submit traffic report
 router.post("/", async (req, res) => {
-  const { currentLocation, destination, hasTraffic } = req.body;
+  const { currentLocation, destination } = req.body;
 
   try {
     let alternativeRoute = null;
 
-    if (hasTraffic) {
-      // Example: Convert addresses into coordinates (in real app you'd use geocoding)
-      // For now let's simulate Nairobi coords
-      const start = [36.8219, -1.2921]; // current location (lng, lat)
-      const end = [36.9062, -1.2806];   // destination (lng, lat)
-
-      const response = await axios.post(
-        ORS_API,
-        {
-          coordinates: [start, end],
-        },
-        {
-          headers: {
-            Authorization: process.env.ORS_API_KEY,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      alternativeRoute = response.data;
-    }
-
     const report = new Traffic({
       currentLocation,
       destination,
-      hasTraffic,
       alternativeRoute,
     });
 
