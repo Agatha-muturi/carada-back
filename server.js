@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Middleware
-app.use(cors()); // tighten origin in production via options
+app.use(cors('https://carada-front-asp5.vercel.app/')); 
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // serve uploaded images
 
